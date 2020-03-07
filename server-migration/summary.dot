@@ -1,0 +1,26 @@
+digraph G {
+    label="tyo.yuriko.co.nz サーバ群"
+    rankdir=TB
+    subgraph cluster_conoha {
+        label = "ConoHa"
+        migration [label="migration\n1GB/100GB" shape="box"]
+        Swift [ shape="folder", label="Swift\n200GB"]
+    };
+    subgraph cluster_aws {
+        label = "AWS"
+        EC2 [shape="box"];
+        RDS [label="RDS\n(PostgreSQL)" shape="cylinder"];
+        S3 [shape="folder"]
+    };
+    subgraph cluster_osm {
+        label = "OpenStreetMap"
+        planet [shape="box", label="Planet.osm"]
+        OverpassAPI [shape="box"]
+    };
+    OverpassAPI -> EC2 [label="国境データ"]
+    migration -> S3 [label="バックアップ"];
+    EC2 -> S3 [label="バックアップ"];
+    端末
+    EC2 -> migration [label="Ansible"]
+    planet -> migration -> Swift [label="Sync"]
+}
