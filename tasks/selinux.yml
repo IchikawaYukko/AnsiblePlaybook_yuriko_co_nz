@@ -1,0 +1,7 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Activate SElinux
+      selinux: policy=targeted state=enforcing

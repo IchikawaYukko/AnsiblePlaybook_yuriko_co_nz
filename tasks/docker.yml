@@ -1,0 +1,24 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+  user: ansible
+  tasks:
+    - name: Pull Docker repository
+      yum_repository:
+        name: docker-ce
+        description: Docker CE Stable - x86_64
+        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable
+        gpgkey: https://download.docker.com/linux/centos/gpg
+        gpgcheck: yes
+        enabled: yes
+    - name: Install Docker CE
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - docker-ce-selinux
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+    - name: Start Docker Daemon
+      service: name=docker state=started enabled=yes
