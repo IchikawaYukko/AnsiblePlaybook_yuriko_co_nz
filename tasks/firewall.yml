@@ -1,0 +1,17 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Install iptables
+      yum:
+        name: iptables-services
+
+    - name: Start iptables
+      service: name=iptables state=started enabled=yes
+
+    - name: Start ip6tables
+      service: name=ip6tables state=started enabled=yes
+
+    - name: Disable firewalld (doesn't work well with Docker)
+      service: name=firewalld state=stopped enabled=no

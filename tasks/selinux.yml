@@ -5,3 +5,7 @@
   tasks:
     - name: Activate SElinux
       selinux: policy=targeted state=enforcing
+
+    - name: Install semanage
+      yum:
+        name: policycoreutils-python

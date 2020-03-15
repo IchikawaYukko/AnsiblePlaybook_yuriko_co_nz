@@ -1,0 +1,26 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+  user: ansible
+  tasks:
+    - name: Install admin tools
+      yum:
+        name:
+          #- pv
+          #- mosh
+          #- sl
+          - wget
+          - tmux
+          - dump
+          - yum-cron
+          - audit
+          - time
+          - tree
+          - abrt
+          - abrt-cli
+          - sg3_utils
+          #- epel-release
+          #- chrony
+          #- bash-completion
+          #- mtr
+          #- python3-pip
