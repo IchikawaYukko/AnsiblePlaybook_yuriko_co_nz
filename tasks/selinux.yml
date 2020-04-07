@@ -9,3 +9,10 @@
     - name: Install semanage
       yum:
         name: policycoreutils-python
+
+    - name: Add 7/tcp to ssh_port_t
+      seport:
+        ports: 7
+        proto: tcp
+        setype: ssh_port_t
+        state: present

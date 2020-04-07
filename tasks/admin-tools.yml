@@ -19,6 +19,8 @@
           - abrt
           - abrt-cli
           - sg3_utils
+          - git
+          - rsync   # sync with old server
           #- epel-release
           #- chrony
           #- bash-completion

@@ -10,6 +10,7 @@
         gpgkey: https://download.docker.com/linux/centos/gpg
         gpgcheck: yes
         enabled: yes
+
     - name: Install Docker CE
       yum:
         name:
@@ -19,6 +20,14 @@
           - yum-utils
           - device-mapper-persistent-data
           - lvm2
+
+    - name: Docker IPv6 config (daemon.json)
+      template:
+        src: daemon.json.j2
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: root
+        mode: 0644
 
     - name: Start Docker Daemon
       service: name=docker state=started enabled=yes

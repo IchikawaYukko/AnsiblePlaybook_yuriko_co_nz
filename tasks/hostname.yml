@@ -1,0 +1,10 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+  user: ansible
+
+  tasks:
+    - name: Set Hostname
+      hostname:
+        name: migration.yuriko.co.nz
+        use: systemd
