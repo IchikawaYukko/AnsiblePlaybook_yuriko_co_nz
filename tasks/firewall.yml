@@ -7,11 +7,49 @@
       yum:
         name: iptables-services
 
-    - name: Start iptables
-      service: name=iptables state=started enabled=yes
-
-    - name: Start ip6tables
-      service: name=ip6tables state=started enabled=yes
-
     - name: Disable firewalld (doesn't work well with Docker)
       service: name=firewalld state=stopped enabled=no
+
+    - name: Flush all
+      iptables:
+        flush: true
+    - name: Accept 7/tcp (ssh)
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: '7'
+        jump: ACCEPT
+
+    - name: Accept 80/tcp (http)
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: '80'
+        jump: ACCEPT
+
+    - name: Accept 443/tcp (https)
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: '443'
+        jump: ACCEPT
+
+    - name: Accept 1194/udp (openvpn)
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: '1194'
+        jump: ACCEPT
+
+    - name: Accept 1701/udp (IPsec/L2TP)
+      iptables:
+        chain: INPUT
+        protocol: udp
+        destination_port: '1701'
+        jump: ACCEPT
+
+    - name: Start iptables
+      service: name=iptables state=started enabled=yes
+  
+    - name: Start ip6tables
+      service: name=ip6tables state=started enabled=yes
