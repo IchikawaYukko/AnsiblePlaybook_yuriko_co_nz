@@ -10,14 +10,22 @@
     - name: Disable firewalld (doesn't work well with Docker)
       service: name=firewalld state=stopped enabled=no
 
-    - name: Flush all
+    - name: Flush All INPUT Rule 
       iptables:
+        chain: INPUT
         flush: true
     - name: Accept 7/tcp (ssh)
       iptables:
         chain: INPUT
         protocol: tcp
         destination_port: '7'
+        jump: ACCEPT
+
+    - name: Accept 60000-60010/udp (MoSH)
+      iptables:
+        chain: INPUT
+        protocol: udp
+        destination_port: '60000:60010'
         jump: ACCEPT
 
     - name: Accept 80/tcp (http)
@@ -46,6 +54,12 @@
         chain: INPUT
         protocol: udp
         destination_port: '1701'
+        jump: ACCEPT
+
+    - name: Accept esp (IPsec/L2TP)
+      iptables:
+        chain: INPUT
+        protocol: esp
         jump: ACCEPT
 
     - name: Start iptables
