@@ -10,58 +10,105 @@
     - name: Disable firewalld (doesn't work well with Docker)
       service: name=firewalld state=stopped enabled=no
 
-    - name: Flush All INPUT Rule 
+    - name: Accept ESTABLISHED & RELATED Packets
       iptables:
         chain: INPUT
-        flush: true
+        ip_version: "{{ item }}"
+        ctstate: [ 'ESTABLISHED', 'RELATED' ]
+        jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
+
+    - name: Accept All Loopbacks
+      iptables:
+        chain: INPUT
+        in_interface: lo
+        ip_version: "{{ item }}"
+        jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
+
+    - name: Accept ICMP
+      iptables:
+        chain: INPUT
+        ip_version: "{{ item }}"
+        protocol: icmp
+        jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
+
     - name: Accept 7/tcp (ssh)
       iptables:
         chain: INPUT
+        ip_version: "{{ item }}"
         protocol: tcp
+        ctstate: NEW
         destination_port: '7'
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
     - name: Accept 60000-60010/udp (MoSH)
       iptables:
         chain: INPUT
+        ip_version: "{{ item }}"
         protocol: udp
+        ctstate: NEW
         destination_port: '60000:60010'
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
     - name: Accept 80/tcp (http)
       iptables:
         chain: INPUT
+        ip_version: "{{ item }}"
         protocol: tcp
+        ctstate: NEW
         destination_port: '80'
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
     - name: Accept 443/tcp (https)
       iptables:
         chain: INPUT
+        ip_version: "{{ item }}"
         protocol: tcp
+        ctstate: NEW
         destination_port: '443'
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
     - name: Accept 1194/udp (openvpn)
       iptables:
         chain: INPUT
-        protocol: tcp
+        ip_version: "{{ item }}"
+        protocol: udp
+        ctstate: NEW
         destination_port: '1194'
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
     - name: Accept 1701/udp (IPsec/L2TP)
       iptables:
         chain: INPUT
+        ip_version: "{{ item }}"
         protocol: udp
+        ctstate: NEW
         destination_port: '1701'
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
     - name: Accept esp (IPsec/L2TP)
       iptables:
         chain: INPUT
+        ip_version: "{{ item }}"
         protocol: esp
         jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
 
+    - name: INPUT Chain Policy = DROP
+      iptables:
+        chain: INPUT
+        ip_version: "{{ item }}"
+        policy: DROP
+      with_items: ['ipv4', 'ipv6']
+  
     - name: Start iptables
       service: name=iptables state=started enabled=yes
   
