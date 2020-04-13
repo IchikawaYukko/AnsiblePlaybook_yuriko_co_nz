@@ -1,0 +1,13 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Crontab - Notify MyDNS ichikawayukko.mydns.jp
+      cron:
+        name: "MyDNS notify Address ichikawayukko.mydns.jp ({{ item }})"
+        minute: '0'
+        hour: '0'
+        job: "curl -s 'http://{{ item }}.mydns.jp/login.html' > /dev/null"
+        state: present
+      with_items: "{{mydns_credential}}" # in group_vars Vault
