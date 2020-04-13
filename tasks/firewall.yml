@@ -110,7 +110,5 @@
       with_items: ['ipv4', 'ipv6']
   
     - name: Start iptables
-      service: name=iptables state=started enabled=yes
-  
-    - name: Start ip6tables
-      service: name=ip6tables state=started enabled=yes
+      service: name="{{ item }}" state=started enabled=yes
+      with_items: ['iptables', 'ip6tables']
