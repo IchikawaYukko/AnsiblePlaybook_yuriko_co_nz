@@ -1,0 +1,61 @@
+- hosts: conoha
+  become: yes
+  user: ansible
+  gather_facts: no
+
+  tasks:
+    - name: Install Backup Tools
+      yum:
+        name:
+          - dump
+          - bzip2
+
+    - name: Place Backup Script
+      template:
+        src: backup.sh.j2
+        dest: /opt/cron_script/backup.sh
+        owner: root
+        group: wheel
+        mode: 0775
+
+    - name: Make Backup Destination Directory
+      file:
+        path: /mnt/backup
+        attributes: +d
+        owner: root
+        group: wheel
+        mode: 0775
+        state: directory
+
+    - name: Set Backup Exclude Flag
+      file:
+        attributes: +d
+        path: "{{ item }}"
+      with_items:
+        - /var/lib/docker
+
+    - name: Set Backup Cron full
+      cron:
+        name: "Full Backup root Filesystem"
+        minute: '0'
+        hour: '2'
+        day: '1'
+        job: "/opt/cron_script/backup.sh full centos root"
+        state: present
+
+    - name: Set Backup Cron diff
+      cron:
+        name: "Diff Backup root Filesystem"
+        minute: '0'
+        hour: '2'
+        day: '2-31'
+        job: "/opt/cron_script/backup.sh diff centos root"
+        state: present
+
+    - name: Set Backup Cron upload
+      cron:
+        name: "Upload Backup "
+        minute: '0'
+        hour: '0'
+        job: "cd /opt/docker/svfs_gateway && /usr/local/bin/docker-compose exec -T svfs sh -c 'cp /host/* /mnt/Backup/trijn/ && rm /host/*'"
+        state: present

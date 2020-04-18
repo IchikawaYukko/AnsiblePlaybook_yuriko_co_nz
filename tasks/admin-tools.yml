@@ -11,7 +11,6 @@
           #- sl
           - wget
           - tmux
-          - dump
           - yum-cron
           - audit
           - time

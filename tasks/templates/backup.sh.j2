@@ -1,0 +1,48 @@
+#!/bin/sh
+# LVM Backup script.
+
+BACKUP_DIR=/mnt/backup
+BACKUP_LOG=$BACKUP_DIR/backup_`date +%Y_week%U`.log
+SNAPSHOT_SIZE=6G
+
+TYPE=$1
+VG=$2
+LV=$3
+
+# Check Args
+if [ $# -ne 3 ]; then
+  echo "LVM Backup Script." 1>&2
+  echo "Usage:" 1>&2
+  echo "./backup.sh full|diff VolumeGroup LogicalVolume" 1>&2
+  exit 1
+fi
+
+# Delete old backup and log.
+/usr/bin/find $BACKUP_DIR -maxdepth 1 -mtime +7 -name 'NCroot_diff_*' -exec rm -f {} \;
+/usr/bin/find $BACKUP_DIR -maxdepth 1 -mtime +32 -name 'backup_????_week??.log' -exec rm -f {} \;
+
+# Create snapshot.
+/bin/sync;/bin/sync;/bin/sync
+/sbin/lvcreate --snapshot --size=$SNAPSHOT_SIZE --name backup_snap /dev/$VG/$LV >> $BACKUP_LOG
+SNAPSHOT_DEVICE=/dev/mapper/$VG-backup_snap
+
+if [ $TYPE = "full" ] ; then
+	DUMP_LEVEL=0
+	ARCHIVER="bzip2 -9"
+	EXT=bz2
+
+	# Delete all old backups
+	/usr/bin/find $BACKUP_DIR -maxdepth 1 -name 'root_*' -exec rm -f {} \;
+fi
+if [ $TYPE = "diff" ] ; then
+	DUMP_LEVEL=1
+	ARCHIVER="bzip2 -9"
+	EXT=bz2
+fi
+BACKUP_FILENAME=$LV_$TYPE_`date +%Y%m%d`.dump.$EXT
+
+# Do Backup
+/sbin/dump -${DUMP_LEVEL}uf - $SNAPSHOT_DEVICE -h 0 2>> $BACKUP_LOG | ${ARCHIVER} > $BACKUP_DIR/$BACKUP_FILENAME
+
+# Remove snapshot.
+/sbin/lvremove -f $SNAPSHOT_DEVICE >> $BACKUP_LOG
