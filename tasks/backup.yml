@@ -57,5 +57,5 @@
         name: "Upload Backup "
         minute: '0'
         hour: '0'
-        job: "cd /opt/docker/svfs_gateway && /usr/local/bin/docker-compose exec -T svfs sh -c 'cp /host/* /mnt/Backup/trijn/ && rm /host/*'"
+        job: "cd /opt/docker/svfs_gateway && /usr/local/bin/docker-compose exec -T svfs sh -c 'cp /host/* /mnt/trijn/ && rm /host/*'"
         state: present
