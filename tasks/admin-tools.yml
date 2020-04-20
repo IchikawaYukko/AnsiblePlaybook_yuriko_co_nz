@@ -6,11 +6,7 @@
     - name: Install admin tools
       yum:
         name:
-          #- pv
-          #- mosh
-          #- sl
           - wget
-          - tmux
           - yum-cron
           - audit
           - time
@@ -20,8 +16,14 @@
           - sg3_utils
           - git
           - rsync   # sync with old server
-          #- epel-release
-          #- chrony
-          #- bash-completion
+          - epel-release
+          - chrony
+          - bash-completion
           #- mtr
           #- python3-pip
+
+    - name: Install admin tools (EPEL)
+      yum:
+        name:
+          - pv
+          - sl
