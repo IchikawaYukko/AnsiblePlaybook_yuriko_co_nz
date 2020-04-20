@@ -1,0 +1,15 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Install EPEL
+      yum:
+        name:
+          - tmux
+          - epel-release
+
+    - name: Install MoSH
+      yum:
+        name:
+          - mosh
