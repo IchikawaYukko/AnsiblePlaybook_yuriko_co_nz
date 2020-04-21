@@ -27,3 +27,16 @@
         name:
           - pv
           - sl
+
+    - block:
+      - name: Install screenfetch 1/2
+        yum:
+          name: pciutils # for lspci
+      - name: Install screenfetch 2/2
+        get_url:
+          url: https://raw.githubusercontent.com/KittyKatt/screenFetch/master/screenfetch-dev
+          checksum: 'sha256:a411a19ad990fa3d7ac1959991471b35830a137741a364470e07781629cd15c4'
+          owner: root
+          group: root
+          mode: 0755
+          dest: /usr/local/bin/screenfetch
