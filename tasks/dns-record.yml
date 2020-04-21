@@ -1,0 +1,66 @@
+- hosts: localhost
+  connection: local
+  become: no
+  gather_facts: no
+
+  tasks:
+    - name: Check DNS Record
+      set_fact:
+        result: "{{ lookup('dig', item.record, 'qtype='+item.type)}}"
+      changed_when: result != item.value
+      with_items:
+        - record: 'yuriko.co.nz.'
+          value: '150.95.138.120'
+          type: 'A'
+        - record: 'yuriko.co.nz.'
+          value: '2400:8500:1302:821:150:95:138:120'
+          type: 'AAAA'
+        - record: 'trijn.tyo.yuriko.co.nz.'
+          value: '150.95.138.120'
+          type: 'A'
+        - record: 'trijn.tyo.yuriko.co.nz.'
+          value: '2400:8500:1302:821:150:95:138:120'
+          type: 'AAAA'
+        - record: '150.95.138.120'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'PTR'
+        - record: '2400:8500:1302:821:150:95:138:120'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'PTR'
+
+        - record: 'ipv6.yuriko.co.nz.'
+          value: '2400:8500:1302:821:150:95:138:120'
+          type: 'AAAA'
+
+        - record: 'openvpn.yuriko.co.nz.'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'CNAME'
+        - record: 'ipsec.yuriko.co.nz.'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'CNAME'
+        - record: 'mail.yuriko.co.nz.'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'CNAME'
+        - record: 'search.yuriko.co.nz.'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'CNAME'
+        - record: 'www.yuriko.co.nz.'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'CNAME'
+
+        - record: 'yuriko.co.nz.'
+          value: '10 trijn.tyo.yuriko.co.nz.'
+          type: 'MX'
+
+        - record: 'yuriko.co.nz.'
+          value: 'v=spf1 a mx a:aagje.tyo.yuriko.co.nz a:nijntje.tyo.yuriko.co.nz ip6:2400:8500:1301:2519:a157:7:52:27f ~all'
+          type: 'TXT'
+        - record: '_dmarc.yuriko.co.nz.'
+          value: 'v=DMARC1; p=none; rua=mailto:dmarc@yuriko.co.nz; ruf=mailto:dmarc@yuriko.co.nz'
+          type: 'TXT'
+        - record: 'trijn.tyo.yuriko.co.nz.'
+          value: 'v=spf1 include:yuriko.co.nz ~all'
+          type: 'TXT'
+        - record: '_dmarc.trijn.tyo.yuriko.co.nz.'
+          value: 'v=DMARC1; p=quarantine; rua=mailto:dmarc@yuriko.co.nz; ruf=mailto:dmarc@yuriko.co.nz'
+          type: 'TXT'
