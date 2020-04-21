@@ -1,6 +1,6 @@
 - hosts: conoha
   become: yes
-  user: ansible
+
   tasks:
     - name: Pull Docker repository
       yum_repository:

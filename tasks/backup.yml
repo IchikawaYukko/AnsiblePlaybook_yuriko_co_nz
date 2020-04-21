@@ -1,6 +1,5 @@
 - hosts: conoha
   become: yes
-  user: ansible
   gather_facts: no
 
   tasks:
