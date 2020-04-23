@@ -4,7 +4,7 @@
   gather_facts: no
 
   tasks:
-    - name: Check DNS Record
+    - name: Check DNS Record ConoHa
       set_fact:
         result: "{{ lookup('dig', item.record, 'qtype='+item.type)}}"
       changed_when: result != item.value
@@ -64,3 +64,15 @@
         - record: '_dmarc.trijn.tyo.yuriko.co.nz.'
           value: 'v=DMARC1; p=quarantine; rua=mailto:dmarc@yuriko.co.nz; ruf=mailto:dmarc@yuriko.co.nz'
           type: 'TXT'
+
+    - name: Check DNS Record (MyDNS)
+      set_fact:
+        result: "{{ lookup('dig', item.record, 'qtype='+item.type)}}"
+      changed_when: result != item.value
+      with_items:
+        - record: 'ichikawayukko.mydns.jp.'
+          value: '150.95.138.120'
+          type: 'A'
+        - record: 'ichikawayukko.mydns.jp.'
+          value: '2400:8500:1302:821:150:95:138:120'
+          type: 'AAAA'
