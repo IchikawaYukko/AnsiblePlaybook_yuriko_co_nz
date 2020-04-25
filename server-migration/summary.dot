@@ -3,13 +3,13 @@ digraph G {
     rankdir=TB
     subgraph cluster_conoha {
         label = "ConoHa"
-        migration [label="migration\n1GB/100GB" shape="box"]
+        migration [label="VPS\ntrijn\n1GB/100GB" shape="box"]
         Swift [ shape="folder", label="Swift\n200GB"]
     };
     subgraph cluster_aws {
         label = "AWS"
-        EC2 [shape="box"];
-        RDS [label="RDS\n(PostgreSQL)" shape="cylinder"];
+        EC2 [label="EC2\npassportcontrol.net\nt3a.nano/30GB EBS" shape="box"];
+#        RDS [label="RDS\n(PostgreSQL)" shape="cylinder"];
         S3 [shape="folder"]
     };
     subgraph cluster_osm {
@@ -18,9 +18,10 @@ digraph G {
         OverpassAPI [shape="box"]
     };
     OverpassAPI -> EC2 [label="国境データ"]
-    migration -> S3 [label="バックアップ"];
+    migration -> S3 [label="月次バックアップ"];
     EC2 -> S3 [label="バックアップ"];
     端末
     EC2 -> migration [label="Ansible"]
     planet -> migration -> Swift [label="Sync"]
+    migration -> Swift [label="日次バックアップ"]
 }
