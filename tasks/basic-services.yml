@@ -9,5 +9,18 @@
     - name: Start abrtd
       service: name=abrtd state=started enabled=yes
 
-    - name: start yum-cron
-      service: name=yum-cron state=started enabled=yes
+    - name: Start crond
+      service: name=crond state=started enabled=yes
+
+    - name: Keep Old Log 52 Weeks with Compressed
+      lineinfile:
+        dest: /etc/logrotate.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        backup: yes
+        state: present
+      with_items:
+        - regexp: '#compress'
+          line: 'compress'
+        - regexp: 'rotate 4'
+          line: 'rotate 52'
