@@ -16,5 +16,13 @@
         backup: yes
         state: present
 
+    - name: Replace epel.repo (supless metalink 503 error)
+      template:
+        src: epel.repo.j2
+        dest: /etc/yum.repos.d/epel.repo
+        owner: root
+        group: root
+        mode: 0644
+
     - name: Start yum-cron
       service: name=yum-cron state=started enabled=yes
