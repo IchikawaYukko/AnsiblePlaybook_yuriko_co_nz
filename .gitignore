@@ -1,0 +1,6 @@
+vault_password
+.vscode/
+ansible/
+group_vars/conoha/sudo_pass.yml
+group_vars/conoha/mydns_credential.yml
+group_vars/conoha/root_forward_address.yml
