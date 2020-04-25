@@ -19,6 +19,8 @@
           - epel-release
           - chrony
           - bash-completion
+          - bind-utils
+          #- cloud-init
           #- mtr
           #- python3-pip
 
