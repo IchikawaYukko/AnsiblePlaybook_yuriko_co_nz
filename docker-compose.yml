@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  ansible:
+    image: ansible/ansible-runner
+    volumes:
+      - ./:/ansible/
+      - /home/ec2-user/.ssh/:/root/.ssh/
+    working_dir: /ansible
+    command: bash
