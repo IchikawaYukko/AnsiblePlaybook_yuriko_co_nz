@@ -1,0 +1,12 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Assert Users Exists
+      user:
+        name: "{{ item }}"
+        groups: wheel
+      with_items:
+        - yuriko
+        - ansible
