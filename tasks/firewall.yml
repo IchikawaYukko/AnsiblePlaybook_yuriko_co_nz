@@ -29,10 +29,25 @@
     - name: Accept ICMP
       iptables:
         chain: INPUT
-        ip_version: "{{ item }}"
+        ip_version: ipv4
         protocol: icmp
         jump: ACCEPT
-      with_items: ['ipv4', 'ipv6']
+
+    - name: Accept ICMPv6
+      iptables:
+        chain: INPUT
+        ip_version: ipv6
+        protocol: icmpv6
+        jump: ACCEPT
+
+    - name: Accept 546/udp (DHCPv6)
+      iptables:
+        chain: INPUT
+        ip_version: ipv6
+        protocol: udp
+        ctstate: NEW
+        destination_port: '546'
+        jump: ACCEPT
 
     - name: Accept 7/tcp (ssh)
       iptables:
