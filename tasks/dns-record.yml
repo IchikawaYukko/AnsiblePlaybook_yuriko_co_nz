@@ -53,6 +53,9 @@
           type: 'MX'
 
         - record: 'yuriko.co.nz.'
+          value: '128 issue "letsencrypt.org"'
+          type: 'CAA'
+        - record: 'yuriko.co.nz.'
           value: 'v=spf1 a mx a:aagje.tyo.yuriko.co.nz a:nijntje.tyo.yuriko.co.nz ip6:2400:8500:1301:2519:a157:7:52:27f ~all'
           type: 'TXT'
         - record: '_dmarc.yuriko.co.nz.'
