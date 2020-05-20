@@ -42,3 +42,9 @@
           group: root
           mode: 0755
           dest: /usr/local/bin/screenfetch
+
+    - name: Install twitter-cmd
+      get_url:
+        url: "https://github.com/IchikawaYukko/twitter-cmd/releases/download/alpha/twitter"
+        dest: /usr/local/bin/twitter
+        mode: +x
