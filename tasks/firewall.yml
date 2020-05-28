@@ -123,7 +123,11 @@
         ip_version: "{{ item }}"
         policy: DROP
       with_items: ['ipv4', 'ipv6']
-  
+
     - name: Start iptables
       service: name="{{ item }}" state=started enabled=yes
       with_items: ['iptables', 'ip6tables']
+
+    # save iptables rules to file
+    # /sbin/service iptables save
+    # /sbin/service ip6tables save
