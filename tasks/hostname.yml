@@ -6,5 +6,5 @@
     - name: Set Hostname
       hostname:
         # from Tante Trijn in nijntje
-        name: trijn.yuriko.co.nz
+        name: trijn.tyo.yuriko.co.nz
         use: systemd
