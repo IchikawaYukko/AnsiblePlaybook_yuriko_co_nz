@@ -35,3 +35,36 @@
         part_end: 102043MiB
         part_type: primary
         state: info
+
+    - name: LVM centos VolumeGroup existence
+      lvg:
+        vg: centos
+        pvs: /dev/vda3
+        pesize: 4M
+        state: present
+
+    - name: LVM root LogicalVolume existence
+      lvol:
+        active: yes
+        lv: root
+        size: 80g
+        vg: centos
+        state: present
+
+    - name: LVM swap LogicalVolume existence
+      lvol:
+        active: yes
+        lv: swap
+        size: 8g
+        vg: centos
+        state: present
+
+    - name: root filesystem is ext4 format
+      filesystem:
+        dev: /dev/mapper/centos-root
+        fstype: ext4
+
+    - name: swap filesystem is swap format
+      filesystem:
+        dev: /dev/mapper/centos-swap
+        fstype: swap
