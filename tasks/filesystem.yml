@@ -1,0 +1,37 @@
+- hosts: conoha
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Assert BIOS partition existence
+      parted:
+        device: /dev/vda
+        label: gpt
+        number: 1
+        flags: [ bios_grub ]
+        part_start: 1MiB
+        part_end: 3MiB
+        part_type: primary
+        state: info
+
+    - name: Assert boot partition existence
+      parted:
+        device: /dev/vda
+        label: gpt
+        number: 2
+        flags: [ ]
+        part_start: 3MiB
+        part_end: 2051MiB
+        part_type: primary
+        state: info
+
+    - name: Assert LVM physical partition existence
+      parted:
+        device: /dev/vda
+        label: gpt
+        number: 3
+        flags: [ lvm ]
+        part_start: 2051MiB
+        part_end: 102043MiB
+        part_type: primary
+        state: info
