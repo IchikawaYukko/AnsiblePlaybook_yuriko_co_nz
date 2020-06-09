@@ -45,7 +45,6 @@
         chain: INPUT
         ip_version: ipv6
         protocol: udp
-        ctstate: NEW
         destination_port: '546'
         jump: ACCEPT
 
@@ -93,7 +92,6 @@
         chain: INPUT
         ip_version: "{{ item }}"
         protocol: udp
-        ctstate: NEW
         destination_port: '1194'
         jump: ACCEPT
       with_items: ['ipv4', 'ipv6']
@@ -103,7 +101,6 @@
         chain: INPUT
         ip_version: "{{ item }}"
         protocol: udp
-        ctstate: NEW
         destination_port: '1701'
         jump: ACCEPT
       with_items: ['ipv4', 'ipv6']
