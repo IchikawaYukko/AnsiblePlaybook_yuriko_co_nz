@@ -21,8 +21,6 @@
           - bash-completion
           - bind-utils
           #- cloud-init
-          #- mtr
-          #- python3-pip
           #- qemu-guest-agent
 
     - name: Install admin tools (EPEL)
