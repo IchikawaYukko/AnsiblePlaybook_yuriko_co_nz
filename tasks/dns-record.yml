@@ -47,6 +47,9 @@
         - record: 'www.yuriko.co.nz.'
           value: 'trijn.tyo.yuriko.co.nz.'
           type: 'CNAME'
+        - record: 'bfv.yuriko.co.nz.'
+          value: 'trijn.tyo.yuriko.co.nz.'
+          type: 'CNAME'
 
         - record: 'yuriko.co.nz.'
           value: '10 trijn.tyo.yuriko.co.nz.'
