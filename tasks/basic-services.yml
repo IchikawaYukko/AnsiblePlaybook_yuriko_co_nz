@@ -3,6 +3,9 @@
   gather_facts: no
 
   tasks:
+    - name: Start serial console
+      service: name=serial-getty@ttyS0.service state=started enabled=yes
+
     - name: Start chronyd
       service: name=chronyd state=started enabled=yes
 

@@ -49,5 +49,3 @@
         mode: +x
 
         # ndp-proxy.service
-        # serial-getty@ttyS0.service
-        # system-serial\x2dgetty.slice
