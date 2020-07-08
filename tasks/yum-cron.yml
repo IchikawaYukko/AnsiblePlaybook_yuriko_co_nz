@@ -11,7 +11,7 @@
     - name: Set apply_updates Flag
       lineinfile:
         dest: /etc/yum/yum-cron.conf
-        regexp: 'apply_updates = yes'
+        regexp: 'apply_updates = no'
         line: apply_updates = yes
         backup: yes
         state: present
