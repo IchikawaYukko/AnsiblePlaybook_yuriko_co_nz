@@ -10,3 +10,19 @@
       with_items:
         - yuriko
         - ansible
+
+    - name: Extend Command History Size
+      lineinfile:
+        dest: /etc/profile
+        regexp: "^HISTSIZE=1000$"
+        line: "HISTSIZE=100000"
+        backup: yes
+        state: present
+  
+    - name: Set Command History Time Format
+      lineinfile:
+        dest: /etc/profile
+        regexp: "^HISTTIMEFORMAT=.*"
+        line: "HISTTIMEFORMAT='%Y/%m/%d %H:%M:%S'"
+        backup: yes
+        state: present
