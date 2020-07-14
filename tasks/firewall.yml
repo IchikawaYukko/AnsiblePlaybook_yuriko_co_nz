@@ -87,6 +87,36 @@
         jump: ACCEPT
       with_items: ['ipv4', 'ipv6']
 
+    - name: Accept 25/tcp (smtp)
+      iptables:
+        chain: INPUT
+        ip_version: "{{ item }}"
+        protocol: tcp
+        ctstate: NEW
+        destination_port: '25'
+        jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
+
+    - name: Accept 587/tcp (submission)
+      iptables:
+        chain: INPUT
+        ip_version: "{{ item }}"
+        protocol: tcp
+        ctstate: NEW
+        destination_port: '587'
+        jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
+
+    - name: Accept 143/tcp (imap)
+      iptables:
+        chain: INPUT
+        ip_version: "{{ item }}"
+        protocol: tcp
+        ctstate: NEW
+        destination_port: '143'
+        jump: ACCEPT
+      with_items: ['ipv4', 'ipv6']
+
     - name: Accept 1194/udp (openvpn)
       iptables:
         chain: INPUT
