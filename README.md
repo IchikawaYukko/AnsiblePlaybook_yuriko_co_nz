@@ -17,7 +17,7 @@ QEMU Guest and Host are provided by ConoHa VPS (IaaS)
 This playbook will target above CentOS Layer
 
 ### QEMU Guest
-ConoHa 1GB server plan (880 Yen/month)
+[ConoHa](https://www.conoha.jp/conoha/) 1GB server plan (880 Yen/month)
 
 * CPU: 1 core 2 threads
 * Memory: 1GB Physical + 8GB Swap
