@@ -20,8 +20,7 @@
           - chrony
           - bash-completion
           - bind-utils
-          #- cloud-init
-          #- qemu-guest-agent
+          - qemu-guest-agent
 
     - name: Install admin tools (EPEL)
       yum:
@@ -47,5 +46,3 @@
         url: "https://github.com/IchikawaYukko/twitter-cmd/releases/download/alpha/twitter"
         dest: /usr/local/bin/twitter
         mode: +x
-
-        # ndp-proxy.service

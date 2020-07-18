@@ -15,6 +15,9 @@
     - name: Start crond
       service: name=crond state=started enabled=yes
 
+    - name: Start QEMU guest agent
+      service: name=qemu-guest-agent state=started enabled=yes
+
     - name: Keep Old Log 52 Weeks with Compressed
       lineinfile:
         dest: /etc/logrotate.conf
