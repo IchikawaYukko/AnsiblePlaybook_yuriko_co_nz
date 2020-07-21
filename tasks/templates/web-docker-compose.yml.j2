@@ -1,0 +1,80 @@
+version: '2.1'
+
+services:
+  pgsql:
+    image: postgres:10.10-alpine
+    restart: always
+    container_name: pgsql
+    environment:
+      - POSTGRES_PASSWORD=
+    volumes:
+      - ./volume/postgresql/:/var/lib/postgresql/data/:z
+      - ./PostgreSQL/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf:z
+      - ./PostgreSQL/pgpass:/root/.pgpass:z
+    networks:
+      - web
+
+  reverse-proxy:
+    image: ichikawayukko/nginx_letsencrypt
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./volume/letsencrypt/:/etc/letsencrypt/:z
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - web
+      - mailu
+    depends_on:
+      - mediawiki
+      - psqlalbum
+
+  mediawiki:
+    depends_on:
+      - pgsql
+    image: ichikawayukko/mediawiki_pgsql
+    container_name: wiki
+    restart: always
+    volumes:
+      - ./volume/mediawiki_images/:/var/www/html/images/:z
+      - ./volume/mediawiki_extMobileFrontend/:/var/www/html/extensions/MobileFrontend/:z
+      - ./volume/mediawiki_extGoogleAnalytics/:/var/www/html/extensions/googleAnalytics/:z
+      - ./LocalSettings.php:/var/www/html/LocalSettings.php:ro
+    networks:
+      - web
+
+  psqlalbum:
+    depends_on:
+      - php
+      - pgsql
+    image: nginx:1.17.10-alpine
+    restart: always
+    container_name: psqlalbum
+    volumes:
+      - ./psqlAlbum/nginx.conf:/etc/nginx/nginx.conf:z
+      - ./volume/psqlalbum/:/var/www/html/:z
+      - ./volume/webserver_log/:/opt/log/:z
+    networks:
+      - web
+
+  php:
+    image: ichikawayukko/php-fpm_pgsql
+    restart: always
+    container_name: php-fpm
+    volumes:
+      - ./volume/psqlalbum/:/var/www/html/:z
+    networks:
+      - web
+
+networks:
+  web:
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: fd77:cafe:beef::/80
+          gateway: fd77:cafe:beef::1
+  mailu:
+    external:
+      name: mailu_default
