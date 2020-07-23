@@ -18,6 +18,17 @@
     - name: Start QEMU guest agent
       service: name=qemu-guest-agent state=started enabled=yes
 
+    - name: Place cloud-init Configuration file
+      template:
+        src: cloud.cfg.j2
+        dest: /etc/cloud/cloud.cfg
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Start cloud-init
+      service: name=cloud-init state=started enabled=yes
+
     - name: Keep Old Log 52 Weeks with Compressed
       lineinfile:
         dest: /etc/logrotate.conf

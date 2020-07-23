@@ -20,6 +20,7 @@
           - chrony
           - bash-completion
           - bind-utils
+          - cloud-init
           - qemu-guest-agent
 
     - name: Install admin tools (EPEL)

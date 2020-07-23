@@ -1,0 +1,40 @@
+datasource_list: [ConfigDrive]
+disable_root: false
+
+growpart:
+  mode: auto
+  devices: ['/']
+  ignore_growroot_disabled: false
+
+cloud_init_modules:
+ - bootcmd
+ - set-hostname
+ - update-hostname
+ - update-etc-hosts
+ - write-files
+ - growpart
+ - resizefs
+ - users-groups
+
+cloud_config_modules:
+ - mounts
+ - locale
+ - set-passwords
+ - rh_subscription
+ - yum-add-repo
+ - package-update-upgrade-install
+ - timezone
+ - puppet
+ - chef
+ - salt-minion
+ - mcollective
+ - disable-ec2-metadata
+ - runcmd
+ - ssh
+
+cloud_final_modules:
+ - scripts-user
+ - scripts-per-once
+ - scripts-per-boot
+ - scripts-per-instance
+ - ssh-authkey-fingerprints
