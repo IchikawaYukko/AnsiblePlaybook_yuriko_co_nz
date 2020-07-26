@@ -21,6 +21,7 @@
           - bash-completion
           - bind-utils
           - qemu-guest-agent
+          - sysstat
 
     - name: Install admin tools (EPEL)
       yum:
