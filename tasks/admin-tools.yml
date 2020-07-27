@@ -15,13 +15,13 @@
           - abrt-cli
           - sg3_utils
           - git
-          - rsync   # sync with old server
+          - rsync   # sync with old server (aagjt.tyo.yuriko.co.nz)
           - epel-release
           - chrony
           - bash-completion
           - bind-utils
           - qemu-guest-agent
-          - sysstat
+          - sysstat # for sar
 
     - name: Install admin tools (EPEL)
       yum:
