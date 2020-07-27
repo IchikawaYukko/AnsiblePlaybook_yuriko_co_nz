@@ -154,6 +154,8 @@
       service: name="{{ item }}" state=started enabled=yes
       with_items: ['iptables', 'ip6tables']
 
-    # save iptables rules to file
-    # /sbin/service iptables save
-    # /sbin/service ip6tables save
+    - name: Save iptables rules to file
+      shell: "service ip{{ item }}tables save"
+      args:
+        warn: false
+      with_items: ['', '6']
