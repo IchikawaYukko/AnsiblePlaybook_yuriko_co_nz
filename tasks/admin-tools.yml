@@ -15,7 +15,7 @@
           - abrt-cli
           - sg3_utils
           - git
-          - rsync   # sync with old server (aagjt.tyo.yuriko.co.nz)
+          - rsync   # sync with old server (aagje.tyo.yuriko.co.nz)
           - epel-release
           - chrony
           - bash-completion
