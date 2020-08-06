@@ -1,16 +1,19 @@
 # AnsiblePlaybook_yuriko_co_nz
 Ansible playbook &amp; server config of yuriko.co.nz with SElinux
 
-ぼくのかんがえたさいきょうのサーバ設定！ with SELinux
+ぼくのかんがえたさいきょうのサーバ設定！ with SELinux [(構築ポリシー)](server-migration/Summary.md)
 
 # Overview
 
 ## Layer
-* Container
-* Docker
-* CentOS 7
-* QEMU Guest
-* QEMU Host(OpenStack)
+| Layer                | Managed by |
+| -------------------- | ---------- |
+| Container            | |
+| Docker               | |
+| CentOS 7             | |
+| QEMU Guest           | ConoHa     |
+| QEMU Host(OpenStack) | ConoHa     |
+| Physical Server      | ConoHa     |
 
 QEMU Guest and Host are provided by ConoHa VPS (IaaS)
 
@@ -30,7 +33,7 @@ ConoHa official CentOS image was not used. (It doesn't contains LVM partition fo
 
 Enables IPv6 & SELinux
 
-root Filesystem is ext4 on LVM
+root Filesystem is ext4 on LVM -> [Filesystem Layout](tasks/filesystem.yml)
 
 ### Docker containers
 
