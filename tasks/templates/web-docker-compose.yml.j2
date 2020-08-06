@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: pgsql
     environment:
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD={{ postgresql_password }}
     volumes:
       - ./volume/postgresql/:/var/lib/postgresql/data/:z
       - ./PostgreSQL/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf:z

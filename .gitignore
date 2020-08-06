@@ -4,3 +4,4 @@ ansible/
 group_vars/conoha/sudo_pass.yml
 group_vars/conoha/mydns_credential.yml
 group_vars/conoha/root_forward_address.yml
+group_vars/conoha/postgresql_password.yml
