@@ -7,7 +7,6 @@
       yum:
         name:
           - wget
-          - yum-cron
           - audit
           - time
           - tree
