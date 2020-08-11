@@ -34,7 +34,7 @@
       - name: Install screenfetch 2/2
         get_url:
           url: https://raw.githubusercontent.com/KittyKatt/screenFetch/master/screenfetch-dev
-          checksum: 'sha256:a411a19ad990fa3d7ac1959991471b35830a137741a364470e07781629cd15c4'
+          checksum: 'sha256:8841eabb5aa7c319f2b1f87dbac75a07f425b67888154a8779976319603732d0'
           owner: root
           group: root
           mode: 0755
@@ -43,5 +43,6 @@
     - name: Install twitter-cmd
       get_url:
         url: "https://github.com/IchikawaYukko/twitter-cmd/releases/download/alpha/twitter"
+        checksum: 'sha256:90652a0bf767926550f81d7e19cfc3f06a02ed217b3df723668d15e463965798'
         dest: /usr/local/bin/twitter
         mode: +x
