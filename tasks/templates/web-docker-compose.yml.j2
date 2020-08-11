@@ -11,6 +11,7 @@ services:
       - ./volume/postgresql/:/var/lib/postgresql/data/:z
       - ./PostgreSQL/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf:z
       - ./PostgreSQL/pgpass:/root/.pgpass:z
+      - /mnt/backup/:/mnt/host/:z
     networks:
       - web
 
