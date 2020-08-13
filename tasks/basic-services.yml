@@ -3,6 +3,24 @@
   gather_facts: no
 
   tasks:
+    - name: Activate boot time serial console
+      lineinfile:
+        dest: /etc/default/grub
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        backup: yes
+        state: present
+      with_items:
+        - regexp: "^GRUB_TERMINAL=.*"
+          line: 'GRUB_TERMINAL="console serial"'
+        - regexp: "^GRUB_SERIAL_COMMAND=.*"
+          line: 'GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"'
+      register: result
+
+    - name: Apply grub configuration changes
+      command: grub2-mkconfig -o /boot/grub2/grub.cfg
+      when: result is changed
+
     - name: Start serial console
       service: name=serial-getty@ttyS0.service state=started enabled=yes
 
