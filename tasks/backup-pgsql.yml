@@ -8,5 +8,5 @@
       name: "Backup PostgreSQL"
       minute: '0'
       hour: '2'
-      job: "cd /opt/docker/web/ && /usr/local/bin/docker-compose exec -T pgsql sh -c 'pg_dumpall -Upostgres --no-password | bzip2 > /mnt/host/pgsql_$(date +%Y%m%d).sql.bz2'"
+      job: cd /opt/docker/web/ && /usr/local/bin/docker-compose exec -T pgsql sh -c 'pg_dumpall -Upostgres --no-password | bzip2 > /mnt/host/pgsql_$(date +\%Y\%m\%d).sql.bz2'
       state: present
