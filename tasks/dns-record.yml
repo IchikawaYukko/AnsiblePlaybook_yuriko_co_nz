@@ -7,8 +7,18 @@
     - name: Check DNS Record ConoHa
       set_fact:
         result: "{{ lookup('dig', item.record, 'qtype='+item.type)}}"
-      changed_when: result != item.value
+      changed_when: item.value not in result
       with_items:
+        - record: 'yuriko.co.nz.'
+          value: 'ns-a1.conoha.io.'
+          type: 'NS'
+        - record: 'yuriko.co.nz.'
+          value: 'ns-a2.conoha.io.'
+          type: 'NS'
+        - record: 'yuriko.co.nz.'
+          value: 'ns-a3.conoha.io.'
+          type: 'NS'
+
         - record: 'yuriko.co.nz.'
           value: '150.95.138.120'
           type: 'A'
@@ -77,8 +87,18 @@
     - name: Check DNS Record (MyDNS)
       set_fact:
         result: "{{ lookup('dig', item.record, 'qtype='+item.type)}}"
-      changed_when: result != item.value
+      changed_when: item.value not in result
       with_items:
+        - record: 'ichikawayukko.mydns.jp.'
+          value: 'ns0.mydns.jp.'
+          type: 'NS'
+        - record: 'ichikawayukko.mydns.jp.'
+          value: 'ns1.mydns.jp.'
+          type: 'NS'
+        - record: 'ichikawayukko.mydns.jp.'
+          value: 'ns2.mydns.jp.'
+          type: 'NS'
+
         - record: 'ichikawayukko.mydns.jp.'
           value: '150.95.138.120'
           type: 'A'
