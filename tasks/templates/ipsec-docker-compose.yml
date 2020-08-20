@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  ipsec:
+    privileged: true
+    ports:
+      - 1701:1701/udp
+      - 500:500/udp
+      - 4500:4500/udp
+    volumes:
+      - /lib/modules:/lib/modules:ro
+    image: hwdsl2/ipsec-vpn-server
+    container_name: ipsec
+    restart: always
+    env_file: vpn.env
