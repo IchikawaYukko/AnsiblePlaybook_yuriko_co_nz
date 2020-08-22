@@ -27,7 +27,7 @@ This playbook will target above CentOS Layer
 * Storage: 100GB SSD
 
 ### Server OS
-Use CentOS (Minimal install from iso image). See [anakonda-ks.cfg](anakonda-ks.cfg).
+Use CentOS (Minimal install from iso image). See [anaconda-ks.cfg](anaconda-ks.cfg).
 
 ConoHa official CentOS image was not used. (It doesn't contains LVM partition for snapshot backup)
 
