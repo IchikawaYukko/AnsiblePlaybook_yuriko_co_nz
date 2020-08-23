@@ -1,6 +1,12 @@
 # All filesystem configurations are set by CentOS installer.
 # So this playbook just check that configuration is correct.
 
+# Layout:
+# | /dev/vda 100GiB GPT                                                                                          |
+# | /dev/vda1 BIOS 2MiB | /dev/vda2 /boot 2GiB ext4 | /dev/vda3 LVM PV 97.6GiB                                   |
+# |                                                 | LVM VG centos                                              |
+# |                                                 | LVM LV root 80GiB | LVM LV swap 8GiB | FREE (for snapshot) |
+
 - hosts: conoha
   become: yes
   gather_facts: no

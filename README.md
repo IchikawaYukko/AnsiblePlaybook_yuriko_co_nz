@@ -1,7 +1,9 @@
 # AnsiblePlaybook_yuriko_co_nz
 Ansible playbook &amp; server config of yuriko.co.nz with SElinux
 
-ぼくのかんがえたさいきょうのサーバ設定！ with SELinux [(構築ポリシー)](server-migration/Summary.md)
+ぼくのかんがえたさいきょうのサーバ設定！ with SELinux
+
+[(構築ポリシー)](docs/Policy.md)
 
 # Overview
 
