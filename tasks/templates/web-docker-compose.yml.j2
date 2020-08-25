@@ -18,6 +18,8 @@ services:
   reverse-proxy:
     image: ichikawayukko/nginx_letsencrypt
     restart: always
+    environment:
+      - HEALTHCHECK_URL=https://yuriko.co.nz
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./volume/letsencrypt/:/etc/letsencrypt/:z
