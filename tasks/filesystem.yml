@@ -77,3 +77,8 @@
       filesystem:
         dev: /dev/mapper/centos-swap
         fstype: swap
+
+    - name: boot filesystem is ext4 format
+      filesystem:
+        dev: /dev/vda2
+        fstype: ext4
