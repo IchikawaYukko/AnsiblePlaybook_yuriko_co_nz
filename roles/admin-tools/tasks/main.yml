@@ -1,48 +1,44 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Install admin tools
+  yum:
+    name:
+      - wget
+      - audit
+      - time
+      - tree
+      - abrt
+      - abrt-cli
+      - sg3_utils
+      - git
+      - epel-release
+      - chrony
+      - bash-completion
+      - bind-utils
+      - qemu-guest-agent
+      - sysstat # for sar
 
-  tasks:
-    - name: Install admin tools
-      yum:
-        name:
-          - wget
-          - audit
-          - time
-          - tree
-          - abrt
-          - abrt-cli
-          - sg3_utils
-          - git
-          - epel-release
-          - chrony
-          - bash-completion
-          - bind-utils
-          - qemu-guest-agent
-          - sysstat # for sar
+- name: Install admin tools (EPEL)
+  yum:
+    name:
+      - pv
+      - sl
 
-    - name: Install admin tools (EPEL)
-      yum:
-        name:
-          - pv
-          - sl
+- block:
+  - name: Install screenfetch 1/2
+    yum:
+      name: pciutils # for lspci
+  - name: Install screenfetch 2/2
+    get_url:
+      url: https://raw.githubusercontent.com/KittyKatt/screenFetch/master/screenfetch-dev
+      checksum: 'sha256:8841eabb5aa7c319f2b1f87dbac75a07f425b67888154a8779976319603732d0'
+      owner: root
+      group: root
+      mode: 0755
+      dest: /usr/local/bin/screenfetch
 
-    - block:
-      - name: Install screenfetch 1/2
-        yum:
-          name: pciutils # for lspci
-      - name: Install screenfetch 2/2
-        get_url:
-          url: https://raw.githubusercontent.com/KittyKatt/screenFetch/master/screenfetch-dev
-          checksum: 'sha256:8841eabb5aa7c319f2b1f87dbac75a07f425b67888154a8779976319603732d0'
-          owner: root
-          group: root
-          mode: 0755
-          dest: /usr/local/bin/screenfetch
-
-    - name: Install twitter-cmd
-      get_url:
-        url: "https://github.com/IchikawaYukko/twitter-cmd/releases/download/alpha/twitter"
-        checksum: 'sha256:90652a0bf767926550f81d7e19cfc3f06a02ed217b3df723668d15e463965798'
-        dest: /usr/local/bin/twitter
-        mode: +x
+- name: Install twitter-cmd
+  get_url:
+    url: "https://github.com/IchikawaYukko/twitter-cmd/releases/download/alpha/twitter"
+    checksum: 'sha256:90652a0bf767926550f81d7e19cfc3f06a02ed217b3df723668d15e463965798'
+    dest: /usr/local/bin/twitter
+    mode: +x
