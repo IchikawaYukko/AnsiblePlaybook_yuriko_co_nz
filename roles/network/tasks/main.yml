@@ -1,39 +1,34 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: "WAN I/F config (ifcfg-{{ network_wan_device }})"
+  template:
+    src: ifcfg-eth0.j2
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ network_wan_device }}"
+    owner: root
+    group: root
+    mode: 0644
+  register: template_result
 
-  tasks:
-    - name: "WAN I/F config (ifcfg-{{ network_wan_device }})"
-      template:
-        src: ifcfg-eth0.j2
-        dest: "/etc/sysconfig/network-scripts/ifcfg-{{ network_wan_device }}"
-        owner: root
-        group: root
-        mode: 0644
-      register: template_result
+- name: Apply WAN I/F Config Changes
+  service: name=network state=restarted enabled=yes
+  when: template_result is changed
 
-    - name: Apply WAN I/F Config Changes
-      service: name=network state=restarted enabled=yes
-      when: template_result is changed
+- name: Check DHCPv6+RA enabled in WAN I/F
+  shell: "nmcli --fields ipv6.method c sh {{ network_wan_device }}"
+  register: nmcli_result
+  changed_when: '"auto" not in nmcli_result.stdout'
 
-    - name: Check DHCPv6+RA enabled in WAN I/F
-      shell: "nmcli --fields ipv6.method c sh {{ network_wan_device }}"
-      register: nmcli_result
-      changed_when: '"auto" not in nmcli_result.stdout'
+- name: Set DHCPv6+RA enabled in WAN I/F
+  shell: "nmcli c modify {{ network_wan_device }} ipv6.method auto"
+  when: nmcli_result is changed
 
-    - name: Set DHCPv6+RA enabled in WAN I/F
-      shell: "nmcli c modify {{ network_wan_device }} ipv6.method auto"
-      when: nmcli_result is changed
+- name: Always accept RA on WAN I/F
+  sysctl:
+    name: "net.ipv6.conf.{{ network_wan_device }}.accept_ra"
+    value: '2'
+    state: present
 
-    - name: Always accept RA on WAN I/F
-      sysctl: 
-        name: "net.ipv6.conf.{{ network_wan_device }}.accept_ra"
-        value: '2'
-        state: present
-
-    - name: Proxy NDP on WAN I/F
-      sysctl:
-        name: "net.ipv6.conf.{{ network_wan_device }}.proxy_ndp"
-        value: '1'
-        state: present
-
+- name: Proxy NDP on WAN I/F
+  sysctl:
+    name: "net.ipv6.conf.{{ network_wan_device }}.proxy_ndp"
+    value: '1'
+    state: present

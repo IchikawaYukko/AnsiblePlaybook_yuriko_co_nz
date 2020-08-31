@@ -1,10 +1,6 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
-
-  tasks:
-    - name: Set Hostname
-      hostname:
-        # from Tante Trijn in nijntje
-        name: trijn.tyo.yuriko.co.nz
-        use: systemd
+---
+- name: Set Hostname
+  hostname:
+    # from Tante Trijn in nijntje
+    name: trijn.tyo.yuriko.co.nz
+    use: systemd

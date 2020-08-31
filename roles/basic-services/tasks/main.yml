@@ -1,66 +1,62 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Activate boot time serial console
+  lineinfile:
+    dest: /etc/default/grub
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+    state: present
+  with_items:
+    - regexp: "^GRUB_TERMINAL=.*"
+      line: 'GRUB_TERMINAL="console serial"'
+    - regexp: "^GRUB_SERIAL_COMMAND=.*"
+      line: 'GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"'
+  register: result
 
-  tasks:
-    - name: Activate boot time serial console
-      lineinfile:
-        dest: /etc/default/grub
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-        backup: yes
-        state: present
-      with_items:
-        - regexp: "^GRUB_TERMINAL=.*"
-          line: 'GRUB_TERMINAL="console serial"'
-        - regexp: "^GRUB_SERIAL_COMMAND=.*"
-          line: 'GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"'
-      register: result
+- name: Apply grub configuration changes
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  when: result is changed
 
-    - name: Apply grub configuration changes
-      command: grub2-mkconfig -o /boot/grub2/grub.cfg
-      when: result is changed
+- name: Start serial console
+  service: name=serial-getty@ttyS0.service state=started enabled=yes
 
-    - name: Start serial console
-      service: name=serial-getty@ttyS0.service state=started enabled=yes
+- name: Start chronyd
+  service: name=chronyd state=started enabled=yes
 
-    - name: Start chronyd
-      service: name=chronyd state=started enabled=yes
+- name: Start abrtd
+  service: name=abrtd state=started enabled=yes
 
-    - name: Start abrtd
-      service: name=abrtd state=started enabled=yes
+- name: Start crond
+  service: name=crond state=started enabled=yes
 
-    - name: Start crond
-      service: name=crond state=started enabled=yes
+- name: Start QEMU guest agent
+  service: name=qemu-guest-agent state=started enabled=yes
 
-    - name: Start QEMU guest agent
-      service: name=qemu-guest-agent state=started enabled=yes
+- name: Keep Old Log 52 Weeks with Compressed
+  lineinfile:
+    dest: /etc/logrotate.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+    state: present
+  with_items:
+    - regexp: '#compress'
+      line: 'compress'
+    - regexp: 'rotate 4'
+      line: 'rotate 52'
 
-    - name: Keep Old Log 52 Weeks with Compressed
-      lineinfile:
-        dest: /etc/logrotate.conf
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-        backup: yes
-        state: present
-      with_items:
-        - regexp: '#compress'
-          line: 'compress'
-        - regexp: 'rotate 4'
-          line: 'rotate 52'
+- name: Start sshd
+  service: name=sshd state=started enabled=yes
 
-    - name: Start sshd
-      service: name=sshd state=started enabled=yes
+- name: Place sshd Configuration file
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+  register: template_result
 
-    - name: Place sshd Configuration file
-      template:
-        src: sshd_config.j2
-        dest: /etc/ssh/sshd_config
-        owner: root
-        group: root
-        mode: 0600
-      register: template_result
-
-    - name: Apply sshd Configuration
-      service: name=sshd state=restarted
-      when: template_result is changed
+- name: Apply sshd Configuration
+  service: name=sshd state=restarted
+  when: template_result is changed

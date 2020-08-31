@@ -1,21 +1,17 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Crontab - Notify MyDNS ichikawayukko.mydns.jp
+  cron:
+    name: "MyDNS notify Address ichikawayukko.mydns.jp ({{ item }})"
+    minute: '0'
+    hour: '0'
+    job: "curl -s 'http://{{ item }}.mydns.jp/login.html' > /dev/null"
+    state: present
+  with_items: "{{mydns_credential}}" # in group_vars Vault
 
-  tasks:
-    - name: Crontab - Notify MyDNS ichikawayukko.mydns.jp
-      cron:
-        name: "MyDNS notify Address ichikawayukko.mydns.jp ({{ item }})"
-        minute: '0'
-        hour: '0'
-        job: "curl -s 'http://{{ item }}.mydns.jp/login.html' > /dev/null"
-        state: present
-      with_items: "{{mydns_credential}}" # in group_vars Vault
-
-    - name: Set crontab -r confirmation
-      lineinfile:
-        dest: /etc/profile
-        regexp: 'alias crontab="crontab -i"'
-        line: alias crontab="crontab -i"
-        backup: yes
-        state: present
+- name: Set crontab -r confirmation
+  lineinfile:
+    dest: /etc/profile
+    regexp: 'alias crontab="crontab -i"'
+    line: alias crontab="crontab -i"
+    backup: yes
+    state: present

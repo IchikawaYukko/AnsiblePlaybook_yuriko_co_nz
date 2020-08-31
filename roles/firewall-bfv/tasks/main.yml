@@ -1,40 +1,36 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Accept Battlefield Vietnam Game Port
+  iptables:
+    chain: INPUT
+    ip_version: ipv4
+    protocol: udp
+    destination_port: '15567'
+    jump: ACCEPT
 
-  tasks:
-    - name: Accept Battlefield Vietnam Game Port
-      iptables:
-        chain: INPUT
-        ip_version: ipv4
-        protocol: udp
-        destination_port: '15567'
-        jump: ACCEPT
+- name: Accept Battlefield Vietnam Server Manager (BFSM)
+  iptables:
+    chain: INPUT
+    ip_version: ipv4
+    protocol: tcp
+    ctstate: NEW
+    destination_port: '15667'
+    jump: ACCEPT
 
-    - name: Accept Battlefield Vietnam Server Manager (BFSM)
-      iptables:
-        chain: INPUT
-        ip_version: ipv4
-        protocol: tcp
-        ctstate: NEW
-        destination_port: '15667'
-        jump: ACCEPT
+- name: Accept GameSpy Internet
+  iptables:
+    chain: INPUT
+    ip_version: ipv4
+    protocol: udp
+    destination_port: '22000'
+    jump: ACCEPT
 
-    - name: Accept GameSpy Internet
-      iptables:
-        chain: INPUT
-        ip_version: ipv4
-        protocol: udp
-        destination_port: '22000'
-        jump: ACCEPT
-
-    - name: Accept GameSpy LAN
-      iptables:
-        chain: INPUT
-        ip_version: ipv4
-        protocol: udp
-        destination_port: '23000'
-        jump: ACCEPT
+- name: Accept GameSpy LAN
+  iptables:
+    chain: INPUT
+    ip_version: ipv4
+    protocol: udp
+    destination_port: '23000'
+    jump: ACCEPT
 
     # Additional Ports : (May be required)
     #

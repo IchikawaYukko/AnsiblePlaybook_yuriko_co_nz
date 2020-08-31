@@ -1,20 +1,16 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Forward root's Mail
+  lineinfile:
+    dest: /etc/aliases
+    regexp: "#root:\t\tmarc"
+    line: "root:\t\tyuriko"
+    backup: yes
+    state: present
 
-  tasks:
-    - name: Forward root's Mail
-      lineinfile:
-        dest: /etc/aliases
-        regexp: "#root:\t\tmarc"
-        line: "root:\t\tyuriko"
-        backup: yes
-        state: present
-
-    - name: Forward root's Mail
-      lineinfile:
-        dest: /etc/aliases
-        insertafter: EOF
-        line: "yuriko:\t\t{{ root_forward_address }}" # from Vault
-        backup: yes
-        state: present
+- name: Forward root's Mail
+  lineinfile:
+    dest: /etc/aliases
+    insertafter: EOF
+    line: "yuriko:\t\t{{ root_forward_address }}" # from Vault
+    backup: yes
+    state: present

@@ -1,21 +1,16 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Allows people in group wheel to run all commands
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "# %wheel\tALL=(ALL)\tALL"
+    line: "%wheel\tALL=(ALL)\tALL"
+    backup: yes
+    state: present
 
-  tasks:
-    - name: Allows people in group wheel to run all commands
-      lineinfile:
-        dest: /etc/sudoers
-        regexp: "# %wheel\tALL=(ALL)\tALL"
-        line: "%wheel\tALL=(ALL)\tALL"
-        backup: yes
-        state: present
-
-    - name: Only wheel group members can be get root privilege
-      lineinfile:
-        dest: /etc/pam.d/su
-        regexp: "#auth\t\trequired\tpam_wheel.so use_uid"
-        line: "auth\t\trequired\tpam_wheel.so use_uid"
-        backup: yes
-        state: present
-  
+- name: Only wheel group members can be get root privilege
+  lineinfile:
+    dest: /etc/pam.d/su
+    regexp: "#auth\t\trequired\tpam_wheel.so use_uid"
+    line: "auth\t\trequired\tpam_wheel.so use_uid"
+    backup: yes
+    state: present

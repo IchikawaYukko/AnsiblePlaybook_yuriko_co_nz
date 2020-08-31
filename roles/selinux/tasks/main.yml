@@ -1,18 +1,14 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Activate SElinux
+  selinux: policy=targeted state=enforcing
 
-  tasks:
-    - name: Activate SElinux
-      selinux: policy=targeted state=enforcing
+- name: Install semanage
+  yum:
+    name: policycoreutils-python
 
-    - name: Install semanage
-      yum:
-        name: policycoreutils-python
-
-    - name: Add 7/tcp to ssh_port_t
-      seport:
-        ports: 7
-        proto: tcp
-        setype: ssh_port_t
-        state: present
+- name: Add 7/tcp to ssh_port_t
+  seport:
+    ports: 7
+    proto: tcp
+    setype: ssh_port_t
+    state: present

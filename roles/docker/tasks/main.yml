@@ -1,39 +1,36 @@
-- hosts: conoha
-  become: yes
+---
+- name: Pull Docker repository
+  yum_repository:
+    name: docker-ce
+    description: Docker CE Stable - x86_64
+    baseurl: https://download.docker.com/linux/centos/7/x86_64/stable
+    gpgkey: https://download.docker.com/linux/centos/gpg
+    gpgcheck: yes
+    enabled: yes
 
-  tasks:
-    - name: Pull Docker repository
-      yum_repository:
-        name: docker-ce
-        description: Docker CE Stable - x86_64
-        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable
-        gpgkey: https://download.docker.com/linux/centos/gpg
-        gpgcheck: yes
-        enabled: yes
+- name: Install Docker CE
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - docker-ce-selinux
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
 
-    - name: Install Docker CE
-      yum:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - docker-ce-selinux
-          - yum-utils
-          - device-mapper-persistent-data
-          - lvm2
+- name: Docker IPv6 config (daemon.json)
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
 
-    - name: Docker IPv6 config (daemon.json)
-      template:
-        src: daemon.json.j2
-        dest: /etc/docker/daemon.json
-        owner: root
-        group: root
-        mode: 0644
+- name: Start Docker Daemon
+  service: name=docker state=started enabled=yes
 
-    - name: Start Docker Daemon
-      service: name=docker state=started enabled=yes
-
-    - name: Install docker-compose
-      get_url:
-        url: "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
-        dest: /usr/local/bin/docker-compose
-        mode: +x
+- name: Install docker-compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+    dest: /usr/local/bin/docker-compose
+    mode: +x

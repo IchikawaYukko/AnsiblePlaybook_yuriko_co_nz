@@ -1,28 +1,24 @@
-- hosts: conoha
-  become: yes
-  gather_facts: no
+---
+- name: Install yum-cron
+  yum:
+    name:
+      - yum-cron
 
-  tasks:
-    - name: Install yum-cron
-      yum:
-        name:
-          - yum-cron
+- name: Set apply_updates Flag
+  lineinfile:
+    dest: /etc/yum/yum-cron.conf
+    regexp: 'apply_updates = no'
+    line: apply_updates = yes
+    backup: yes
+    state: present
 
-    - name: Set apply_updates Flag
-      lineinfile:
-        dest: /etc/yum/yum-cron.conf
-        regexp: 'apply_updates = no'
-        line: apply_updates = yes
-        backup: yes
-        state: present
+- name: Replace epel.repo (supless metalink 503 error)
+  template:
+    src: epel.repo.j2
+    dest: /etc/yum.repos.d/epel.repo
+    owner: root
+    group: root
+    mode: 0644
 
-    - name: Replace epel.repo (supless metalink 503 error)
-      template:
-        src: epel.repo.j2
-        dest: /etc/yum.repos.d/epel.repo
-        owner: root
-        group: root
-        mode: 0644
-
-    - name: Start yum-cron
-      service: name=yum-cron state=started enabled=yes
+- name: Start yum-cron
+  service: name=yum-cron state=started enabled=yes

@@ -7,4 +7,4 @@ services:
       - ./:/ansible/
       - /home/ec2-user/.ssh/:/root/.ssh/
     working_dir: /ansible
-    command: bash
+    command: yum install -y python3-dns && bash
