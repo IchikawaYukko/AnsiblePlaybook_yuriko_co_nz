@@ -1,11 +1,11 @@
 ---
 - name: Assert Users Exists
   user:
-    name: "{{ item }}"
+    name: "{{ item.username }}"
     groups: wheel
-  with_items:
-    - yuriko
-    - ansible
+    password: "{{ item.password |password_hash('sha512') }}"
+  no_log: true
+  with_items: "{{ linux_users }}"
 
 - name: Extend Command History Size
   lineinfile:
