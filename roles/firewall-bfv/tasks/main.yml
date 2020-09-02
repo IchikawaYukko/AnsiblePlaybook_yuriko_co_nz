@@ -32,9 +32,15 @@
     destination_port: '23000'
     jump: ACCEPT
 
-    # Additional Ports : (May be required)
-    #
-    # 5711/tcp Remote Console Port
-    # 14690/udp All-Seeing Eye (ASE)
-    # 27900/udp Publish server to GameSpy (OUTGOING PACKET)
-    # 27910/udp Client CDKey check to GameSpy (OUTGOING PACKET)
+- name: Save iptables rules to file
+  shell: "service ip{{ item }}tables save"
+  args:
+    warn: false
+  with_items: ['', '6']
+
+# Additional Ports : (May be required)
+#
+# 5711/tcp Remote Console Port
+# 14690/udp All-Seeing Eye (ASE)
+# 27900/udp Publish server to GameSpy (OUTGOING PACKET)
+# 27910/udp Client CDKey check to GameSpy (OUTGOING PACKET)
