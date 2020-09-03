@@ -16,6 +16,7 @@
       - bind-utils
       - qemu-guest-agent
       - sysstat # for sar
+      - bc
 
 - name: Install admin tools (EPEL)
   yum:
