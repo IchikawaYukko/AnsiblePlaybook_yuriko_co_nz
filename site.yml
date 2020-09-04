@@ -1,3 +1,3 @@
 ---
 - import_playbook: common.yml
-- import_playbook: yuriko-servers.yml
+- import_playbook: production-servers.yml
