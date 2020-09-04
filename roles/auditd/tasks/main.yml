@@ -1,0 +1,21 @@
+---
+- name: Install
+  yum:
+    name:
+      - audit
+
+- name: Place config
+  copy:
+    src: audit.conf
+    dest: /etc/audit/auditd.conf
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Place rule
+  copy:
+    src: audit.conf
+    dest: /etc/audit/rules.d/audit.rules
+    owner: root
+    group: root
+    mode: 0600
