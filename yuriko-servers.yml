@@ -1,25 +1,13 @@
 ---
-- hosts: all
+- hosts: trijn
   become: yes
   gather_facts: yes
 
   roles:
-  - admin-tools
-  - auditd
   - backup
   - backup-pgsql
-  - basic-services
   - crontab
-  - dns-record
-  - docker
   - filesystem
   - firewall
   - firewall-bfv
-  - forward-root-mail
-  - hostname
-  - mosh
   - network
-  - selinux
-  - sudo
-  - users
-  - yum-cron

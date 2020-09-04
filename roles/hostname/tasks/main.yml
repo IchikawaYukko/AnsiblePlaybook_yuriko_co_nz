@@ -1,6 +1,5 @@
 ---
 - name: Set Hostname
   hostname:
-    # from Tante Trijn in nijntje
-    name: trijn.tyo.yuriko.co.nz
+    name: "{{ server_hostname }}"
     use: systemd

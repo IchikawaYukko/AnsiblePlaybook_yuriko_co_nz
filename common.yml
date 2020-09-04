@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+
+  roles:
+  - hostname
+  - dns-record
+  - admin-tools
+  - auditd
+  - basic-services
+  - docker
+  - forward-root-mail
+  - mosh
+  - selinux
+  - sudo
+  - users
+  - yum-cron
