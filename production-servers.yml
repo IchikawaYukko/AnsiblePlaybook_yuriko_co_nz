@@ -6,8 +6,6 @@
   roles:
   - backup
   - backup-pgsql
-  - crontab
-  - filesystem
-  - firewall
+  - crontab-jobs
   - firewall-bfv
   - network

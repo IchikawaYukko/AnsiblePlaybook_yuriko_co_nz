@@ -4,13 +4,14 @@
   gather_facts: yes
 
   roles:
-  - hostname
-  - dns-record
   - admin-tools
   - auditd
   - basic-services
+  - crontab
+  - dns-record
   - docker
   - forward-root-mail
+  - hostname
   - mosh
   - selinux
   - sudo

@@ -1,0 +1,8 @@
+---
+- name: Set crontab -r confirmation
+  lineinfile:
+    dest: /etc/profile
+    regexp: 'alias crontab="crontab -i"'
+    line: alias crontab="crontab -i"
+    backup: yes
+    state: present
