@@ -13,6 +13,7 @@
   - forward-root-mail
   - hostname
   - mosh
+  - network
   - selinux
   - sudo
   - users
