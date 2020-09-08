@@ -7,4 +7,5 @@
   - backup
   - backup-pgsql
   - crontab-jobs
+  - firewall-prod
   - firewall-bfv
