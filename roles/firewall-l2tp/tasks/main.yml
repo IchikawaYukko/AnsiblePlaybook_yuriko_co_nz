@@ -1,0 +1,23 @@
+---
+- name: Accept 1701/udp (IPsec/L2TP)
+  iptables:
+    chain: INPUT
+    ip_version: "{{ item }}"
+    protocol: udp
+    destination_port: '1701'
+    jump: ACCEPT
+  with_items: ['ipv4', 'ipv6']
+
+- name: Accept esp (IPsec/L2TP)
+  iptables:
+    chain: INPUT
+    ip_version: "{{ item }}"
+    protocol: esp
+    jump: ACCEPT
+  with_items: ['ipv4', 'ipv6']
+
+- name: Save iptables rules to file
+  shell: "service ip{{ item }}tables save"
+  args:
+    warn: false
+  with_items: ['', '6']
