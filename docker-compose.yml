@@ -1,10 +1,8 @@
-version: '3'
-
 services:
   ansible:
-    image: ansible/ansible-runner
+    image: ichikawayukko/ansible-runner:9.8.0
     volumes:
       - ./:/ansible/
       - /home/ec2-user/.ssh/:/root/.ssh/
     working_dir: /ansible
-    command: yum install -y python3-dns && bash
+    command: tail -f
