@@ -1,0 +1,31 @@
+---
+- name: Enable CentOS Vault repository
+  yum_repository:
+    file: CentOS-Vault
+    name: C7.9.2009-{{ item.name }}
+    description: CentOS-7.9.2009 - {{ item.description }}
+    baseurl: http://vault.centos.org/7.9.2009/{{ item.url }}/$basearch/
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    gpgcheck: yes
+    enabled: yes
+  with_items:
+    - name: 'base'
+      description: 'Base'
+      url: 'os'
+    - name: 'updates'
+      description: 'Updates'
+      url: 'updates'
+    - name: 'extras'
+      description: 'Extras'
+      url: 'extras'
+
+- name: Change EoL EPEL baseurl
+  yum_repository:
+    file: epel
+    name: epel
+    description: Extra Packages for Enterprise Linux 7 - $basearch
+    baseurl: https://archives.fedoraproject.org/pub/archive/epel/7.9/$basearch
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+    gpgcheck: yes
+    enabled: yes
+    failovermethod: priority

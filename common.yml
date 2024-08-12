@@ -4,6 +4,7 @@
   gather_facts: yes
 
   roles:
+  - centos79vault
   - admin-tools
   - auditd
   - basic-services
