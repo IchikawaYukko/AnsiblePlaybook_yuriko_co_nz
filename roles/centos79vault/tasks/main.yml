@@ -19,6 +19,26 @@
       description: 'Extras'
       url: 'extras'
 
+- name: Disable CentOS Base repository
+  yum_repository:
+    file: CentOS-Base
+    name: "{{ item.name }}"
+    description: CentOS-$releasever - {{ item.description }}
+    mirrorlist: http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo={{ item.repo }}&infra=$infra
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    gpgcheck: yes
+    enabled: no
+  with_items:
+    - name: 'base'
+      description: 'Base'
+      repo: 'os'
+    - name: 'updates'
+      description: 'Updates'
+      repo: 'updates'
+    - name: 'extras'
+      description: 'Extras'
+      repo: 'extras'
+
 - name: Change EoL EPEL baseurl
   yum_repository:
     file: epel
